@@ -19,10 +19,7 @@ public class Database {
 	try {
 		//lets try to connect to MySQL database called sorteo 
 		connectNow = DriverManager.getConnection(url, user, pass);
-		String sql = "USE sorteo";
-		PreparedStatement prSt = connectNow.prepareStatement(sql);
-		prSt.execute();
-	
+		System.err.println("You are connected");
 	} catch (Exception e) {
 		System.out.println("Error connecting to database : " +e);
 	}
