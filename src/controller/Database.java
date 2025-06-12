@@ -17,7 +17,7 @@ public class Database {
 	Connection connectNow = null;
 	
 	try {
-		//lets try to connect to MySQL database called sorteo 
+		//lets try to connect to MySQL database sorteo
 		connectNow = DriverManager.getConnection(url, user, pass);
 		System.err.println("You are connected");
 	} catch (Exception e) {
