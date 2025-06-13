@@ -18,13 +18,13 @@ import controller.Database;
 
 public class View extends JFrame {
 	
-	public boolean insertNumbers (String   date1, int num1, int num2, int num3, int num4, int num5, int star, int star2) {
+	public boolean insertNumbers (Date date1, int num1, int num2, int num3, int num4, int num5, int star, int star2) {
 	
 		try {
 			Connection conn =Database.connect();
 			String sql = "INSERT INTO numbers (date1,num1,num2,num3,num4,num5,star,star2) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement pST = conn.prepareStatement(sql);
-			pST.setString(1, date1);
+			pST.setDate(1, date1);
 			pST.setInt(2, num1);
 			pST.setInt(3, num2);
 			pST.setInt(4, num3);
@@ -72,7 +72,14 @@ public class View extends JFrame {
         okButtonPanel.add(exitButton1);
         // Create labels and text fields with a slightly larger size
         Font largerFont = new Font("Arial", Font.PLAIN, 12); // Larger font size for labels and text fields
-
+        
+        JLabel labelDate = new JLabel("Date:");
+        labelDate.setFont(largerFont);
+        JTextField textDate = new JTextField(3); // Slightly larger text field width
+        textDate.setFont(largerFont);
+        textDate.setPreferredSize(new Dimension(40, 25)); 
+        
+        
         JLabel labelNum1 = new JLabel("Num 1:");
         labelNum1.setFont(largerFont);
         JTextField textNum1 = new JTextField(3); // Slightly larger text field width
@@ -130,24 +137,35 @@ public class View extends JFrame {
         numPanel.add(textNumstar);
         numPanel.add(labelNumstar2);
         numPanel.add(textNumstar2);
+        numPanel.add(labelDate);
 
         // Add the numPanel and button to the panelContent
         panelContent.add(numPanel);
         panelContent.add(okButtonPanel);
 
-
         // Add the panelContent to the JFrame
         add(panelContent);
         
-        okButton2.addActionListener(null){
+        //get the values from the user
+        int num1 = Integer.parseInt(textNum1.getText().trim());
+        int num2 = Integer.parseInt(textNum2.getText().trim());
+        int num3 = Integer.parseInt(textNum3.getText().trim());
+        int num4 = Integer.parseInt(textNum4.getText().trim());
+        int num5 = Integer.parseInt(textNum5.getText().trim());
+        int star = Integer.parseInt(textNumstar.getText().trim());
+        int star2 = Integer.parseInt(textNumstar2.getText().trim());
+       
+        okButton2.addActionListener(e->{
+        	//we call the function that inserts the valeues
+        	//insertNumbers(num2, num1,num2,num3,num4,num5,star,star2);
         	
-        	
-        	
-        };
+        });
         
         
     }
-
+    //im at the point of validating the DATE and its format 
+    
+    
     public static void main(String[] args) {
         // Create the window and make it visible
         View wellcome = new View();
