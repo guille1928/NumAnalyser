@@ -1,83 +1,156 @@
 package view;
 
-import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-
-//here we create the main wellcome window
+import controller.Database;
 
 public class View extends JFrame {
-
-	public View() {
-		setSize(600, 400);
-		// I configure the size and default colors for the windows
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		UIManager.put("Panel.background", new Color(245, 245, 220));
-		getContentPane().setBackground(new Color(245, 245, 220));
-
-		JPanel panelContent = new JPanel();
-		panelContent.setLayout(new BoxLayout(panelContent, BoxLayout.Y_AXIS));
-		panelContent.setPreferredSize(new Dimension(400, 300));
-		
-
 	
-		// Crear los paneles para agrupar los campos
-		JPanel numPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		
-		JLabel labelNum1 = new JLabel("Number 1:");
-		JTextField textNum1 = new JTextField(5);
-		JLabel labelNum2 = new JLabel("Number 2:");
-		JTextField textNum2 = new JTextField(5);
-		JLabel labelNum3 = new JLabel("Number 3:");
-		JTextField textNum3 = new JTextField(5);
-		JLabel labelNum4 = new JLabel("Number 4:");
-		JTextField textNum4 = new JTextField(5);
-		JLabel labelNum5 = new JLabel("Number 5:");
-		JTextField textNum5 = new JTextField(5);
-		JLabel labelNumstar = new JLabel("First star:");
-		JTextField textNumstar = new JTextField(5);
-		JLabel labelNumstar2 = new JLabel("Second star:");
-		JTextField textNumstar2 = new JTextField(5);
-		//number panel
-		numPanel.add(labelNum1);
-		numPanel.add(textNum1);
-		numPanel.add(labelNum2);
-		numPanel.add(textNum2);
-		numPanel.add(labelNum3);
-		numPanel.add(textNum3);
-		numPanel.add(textNum4);
-		numPanel.add(labelNum4);
-		numPanel.add(textNum5);
-		numPanel.add(labelNum5);
-		
-		//2 star
-		numPanel.add(labelNumstar);
-		numPanel.add(textNumstar);
-		numPanel.add(labelNumstar2);
-		numPanel.add(textNumstar2);
-
-		panelContent.add(numPanel);
-	;
-		
-		add(panelContent);
+	public boolean insertNumbers (String   date1, int num1, int num2, int num3, int num4, int num5, int star, int star2) {
+	
+		try {
+			Connection conn =Database.connect();
+			String sql = "INSERT INTO numbers (date1,num1,num2,num3,num4,num5,star,star2) VALUES (?,?,?,?,?,?,?,?)";
+			PreparedStatement pST = conn.prepareStatement(sql);
+			pST.setString(1, date1);
+			pST.setInt(2, num1);
+			pST.setInt(3, num2);
+			pST.setInt(4, num3);
+			pST.setInt(5, num4);
+			pST.setInt(6, num5);
+			pST.setInt(7, star);
+			pST.setInt(8, star2);
+			pST.execute();
+			
+			System.out.println("Values inserted");
+			return true;
+			
+			} catch (Exception e) {
+				System.out.println("Error inserting values" + e);
+				
+			}
 		
 		
+	return false;	
 	}
+	
+    public View() {
+        setSize(800, 400);
+        // Configure the size and default colors for the window
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-	public static void main(String[] args) {
-		View wellcome = new View();
-		wellcome.setVisible(true);
+        JPanel panelContent = new JPanel();
+        panelContent.setLayout(new BoxLayout(panelContent, BoxLayout.Y_AXIS));
+        panelContent.setPreferredSize(new Dimension(400, 300));
 
-	}
+        // Create the panels to group the fields
+        JPanel numPanel = new JPanel();
+        numPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10)); // Increased space between components
 
+        JPanel okButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel okButton1LB = new JLabel();
+        JButton okButton2 = new JButton("Submit");
+        JLabel exitButtonLB = new JLabel();
+        JButton exitButton1 = new JButton("Exit");
+        
+        okButtonPanel.add(okButton1LB);
+        okButtonPanel.add(okButton2);
+        okButtonPanel.add(exitButtonLB);
+        okButtonPanel.add(exitButton1);
+        // Create labels and text fields with a slightly larger size
+        Font largerFont = new Font("Arial", Font.PLAIN, 12); // Larger font size for labels and text fields
+
+        JLabel labelNum1 = new JLabel("Num 1:");
+        labelNum1.setFont(largerFont);
+        JTextField textNum1 = new JTextField(3); // Slightly larger text field width
+        textNum1.setFont(largerFont);
+        textNum1.setPreferredSize(new Dimension(40, 25)); // Slightly bigger size for the text field
+
+        JLabel labelNum2 = new JLabel("Num 2:");
+        labelNum2.setFont(largerFont);
+        JTextField textNum2 = new JTextField(3);
+        textNum2.setFont(largerFont);
+        textNum2.setPreferredSize(new Dimension(40, 25));
+
+        JLabel labelNum3 = new JLabel("Num 3:");
+        labelNum3.setFont(largerFont);
+        JTextField textNum3 = new JTextField(3);
+        textNum3.setFont(largerFont);
+        textNum3.setPreferredSize(new Dimension(40, 25));
+
+        JLabel labelNum4 = new JLabel("Num 4:");
+        labelNum4.setFont(largerFont);
+        JTextField textNum4 = new JTextField(3);
+        textNum4.setFont(largerFont);
+        textNum4.setPreferredSize(new Dimension(40, 25));
+
+        JLabel labelNum5 = new JLabel("Num 5:");
+        labelNum5.setFont(largerFont);
+        JTextField textNum5 = new JTextField(3);
+        textNum5.setFont(largerFont);
+        textNum5.setPreferredSize(new Dimension(40, 25));
+
+        JLabel labelNumstar = new JLabel("Star 1:");
+        labelNumstar.setFont(largerFont);
+        JTextField textNumstar = new JTextField(3);
+        textNumstar.setFont(largerFont);
+        textNumstar.setPreferredSize(new Dimension(40, 25));
+
+        JLabel labelNumstar2 = new JLabel("Star 2:");
+        labelNumstar2.setFont(largerFont);
+        JTextField textNumstar2 = new JTextField(3);
+        textNumstar2.setFont(largerFont);
+        textNumstar2.setPreferredSize(new Dimension(40, 25));
+
+        // Add fields and labels to the numPanel
+        numPanel.add(labelNum1);
+        numPanel.add(textNum1);
+        numPanel.add(labelNum2);
+        numPanel.add(textNum2);
+        numPanel.add(labelNum3);
+        numPanel.add(textNum3);
+        numPanel.add(labelNum4);
+        numPanel.add(textNum4);
+        numPanel.add(labelNum5);
+        numPanel.add(textNum5);
+        numPanel.add(labelNumstar);
+        numPanel.add(textNumstar);
+        numPanel.add(labelNumstar2);
+        numPanel.add(textNumstar2);
+
+        // Add the numPanel and button to the panelContent
+        panelContent.add(numPanel);
+        panelContent.add(okButtonPanel);
+
+
+        // Add the panelContent to the JFrame
+        add(panelContent);
+        
+        okButton2.addActionListener(null){
+        	
+        	
+        	
+        };
+        
+        
+    }
+
+    public static void main(String[] args) {
+        // Create the window and make it visible
+        View wellcome = new View();
+        wellcome.setVisible(true);
+    }
 }
