@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import controller.Database;
@@ -47,44 +48,29 @@ public class View extends JFrame {
 	}
 	
     public View() {
-        setSize(800, 400);
+    	setSize(800, 400);
         // Configure the size and default colors for the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panelContent = new JPanel();
-        panelContent.setLayout(new BoxLayout(panelContent, BoxLayout.Y_AXIS));
-        panelContent.setPreferredSize(new Dimension(400, 300));
+        panelContent.setLayout(new BoxLayout(panelContent, BoxLayout.Y_AXIS)); // Stack everything vertically
 
-        // Create the panels to group the fields
-        JPanel numPanel = new JPanel();
-        numPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10)); // Increased space between components
+        // Create panels to group the fields
+        JPanel numPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));  // Number fields panel
+        JPanel starPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10)); // Star fields panel
+        JPanel datePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10)); // Date fields panel
+        JPanel okButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Panel for buttons
 
-        JPanel okButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel okButton1LB = new JLabel();
-        JButton okButton2 = new JButton("Submit");
-        JLabel exitButtonLB = new JLabel();
-        JButton exitButton1 = new JButton("Exit");
-        
-        okButtonPanel.add(okButton1LB);
-        okButtonPanel.add(okButton2);
-        okButtonPanel.add(exitButtonLB);
-        okButtonPanel.add(exitButton1);
-        // Create labels and text fields with a slightly larger size
-        Font largerFont = new Font("Arial", Font.PLAIN, 12); // Larger font size for labels and text fields
-        
-        JLabel labelDate = new JLabel("Date:");
-        labelDate.setFont(largerFont);
-        JTextField textDate = new JTextField(3); // Slightly larger text field width
-        textDate.setFont(largerFont);
-        textDate.setPreferredSize(new Dimension(40, 25)); 
-        
-        
+        // Font for labels and text fields
+        Font largerFont = new Font("Arial", Font.PLAIN, 12); 
+
+        // Labels and text fields for the numbers (Num 1 to Num 5)
         JLabel labelNum1 = new JLabel("Num 1:");
         labelNum1.setFont(largerFont);
-        JTextField textNum1 = new JTextField(3); // Slightly larger text field width
+        JTextField textNum1 = new JTextField(3);
         textNum1.setFont(largerFont);
-        textNum1.setPreferredSize(new Dimension(40, 25)); // Slightly bigger size for the text field
+        textNum1.setPreferredSize(new Dimension(40, 25));
 
         JLabel labelNum2 = new JLabel("Num 2:");
         labelNum2.setFont(largerFont);
@@ -110,6 +96,19 @@ public class View extends JFrame {
         textNum5.setFont(largerFont);
         textNum5.setPreferredSize(new Dimension(40, 25));
 
+        // Add the number fields (Num 1 to Num 5) to the numPanel (top section)
+        numPanel.add(labelNum1);
+        numPanel.add(textNum1);
+        numPanel.add(labelNum2);
+        numPanel.add(textNum2);
+        numPanel.add(labelNum3);
+        numPanel.add(textNum3);
+        numPanel.add(labelNum4);
+        numPanel.add(textNum4);
+        numPanel.add(labelNum5);
+        numPanel.add(textNum5);
+
+        // Labels and text fields for the stars (Star 1 and Star 2)
         JLabel labelNumstar = new JLabel("Star 1:");
         labelNumstar.setFont(largerFont);
         JTextField textNumstar = new JTextField(3);
@@ -122,44 +121,80 @@ public class View extends JFrame {
         textNumstar2.setFont(largerFont);
         textNumstar2.setPreferredSize(new Dimension(40, 25));
 
-        // Add fields and labels to the numPanel
-        numPanel.add(labelNum1);
-        numPanel.add(textNum1);
-        numPanel.add(labelNum2);
-        numPanel.add(textNum2);
-        numPanel.add(labelNum3);
-        numPanel.add(textNum3);
-        numPanel.add(labelNum4);
-        numPanel.add(textNum4);
-        numPanel.add(labelNum5);
-        numPanel.add(textNum5);
-        numPanel.add(labelNumstar);
-        numPanel.add(textNumstar);
-        numPanel.add(labelNumstar2);
-        numPanel.add(textNumstar2);
-        numPanel.add(labelDate);
+        // Add the star fields (Star 1 and Star 2) to the starPanel
+        starPanel.add(labelNumstar);
+        starPanel.add(textNumstar);
+        starPanel.add(labelNumstar2);
+        starPanel.add(textNumstar2);
 
-        // Add the numPanel and button to the panelContent
-        panelContent.add(numPanel);
-        panelContent.add(okButtonPanel);
+        // Labels and text fields for the date
+        JLabel labelDate = new JLabel("Date:");
+        labelDate.setFont(largerFont);
+        JTextField textDate = new JTextField(9); // Slightly larger text field width
+        textDate.setFont(largerFont);
+        textDate.setPreferredSize(new Dimension(40, 25)); 
+
+        // Add the date field to the datePanel
+        datePanel.add(labelDate);
+        datePanel.add(textDate);
+
+        // Button Panel for submitting and exiting
+        JLabel okButton1LB = new JLabel();
+        JButton okButton2 = new JButton("Submit");
+        JLabel exitButtonLB = new JLabel();
+        JButton exitButton1 = new JButton("Exit");
+        okButtonPanel.add(okButton1LB);
+        okButtonPanel.add(okButton2);
+        okButtonPanel.add(exitButtonLB);
+        okButtonPanel.add(exitButton1);
+
+        // Add the panels to the main content panel
+        panelContent.add(numPanel); // Numbers at the top
+        panelContent.add(starPanel); // Stars below numbers
+        panelContent.add(datePanel); // Date below stars
+        panelContent.add(okButtonPanel); // Buttons at the bottom
 
         // Add the panelContent to the JFrame
         add(panelContent);
         
-        //get the values from the user
-        int num1 = Integer.parseInt(textNum1.getText().trim());
-        int num2 = Integer.parseInt(textNum2.getText().trim());
-        int num3 = Integer.parseInt(textNum3.getText().trim());
-        int num4 = Integer.parseInt(textNum4.getText().trim());
-        int num5 = Integer.parseInt(textNum5.getText().trim());
-        int star = Integer.parseInt(textNumstar.getText().trim());
-        int star2 = Integer.parseInt(textNumstar2.getText().trim());
-       
-        okButton2.addActionListener(e->{
-        	//we call the function that inserts the valeues
-        	//insertNumbers(num2, num1,num2,num3,num4,num5,star,star2);
-        	
+        //close the program
+        exitButton1.addActionListener(e->{
+         System.exit(ABORT)	;
         });
+        //if the user cliks ok, we call the function
+		okButton2.addActionListener(e -> {
+			try {
+				// get the values from the user
+				String dateUser = textDate.getText().trim();
+				// Validar y convertir la fecha al formato adecuado
+				java.sql.Date date = java.sql.Date.valueOf(dateUser);
+				int num1 = Integer.parseInt(textNum1.getText().trim());
+				int num2 = Integer.parseInt(textNum2.getText().trim());
+				int num3 = Integer.parseInt(textNum3.getText().trim());
+				int num4 = Integer.parseInt(textNum4.getText().trim());
+				int num5 = Integer.parseInt(textNum5.getText().trim());
+				int star = Integer.parseInt(textNumstar.getText().trim());
+				int star2 = Integer.parseInt(textNumstar2.getText().trim());
+				// we call the function that inserts the valeues
+				boolean result = insertNumbers(date, num1, num2, num3, num4, num5, star, star2);
+
+				if (result) {
+
+					JOptionPane.showMessageDialog(this, "Success on the query");
+
+				} else {
+					JOptionPane.showMessageDialog(this, "Error inserting data");
+				}
+
+			} catch (IllegalArgumentException ex) {
+		        // Handle invalid date format
+		        JOptionPane.showMessageDialog(this, "Invalid date format. Please use yyyy-mm-dd.");
+		    }catch (Exception ex) {
+		        // Handle any other exceptions that might occur
+		        JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + ex.getMessage());
+		    }
+
+		});
         
         
     }
