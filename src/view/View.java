@@ -4,10 +4,6 @@ package view;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,37 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import controller.Database;
+
 
 public class View extends JFrame {
 	
-	public boolean insertNumbers (Date date1, int num1, int num2, int num3, int num4, int num5, int star, int star2) {
-	
-		try {
-			Connection conn =Database.connect();
-			String sql = "INSERT INTO numbers (date1,num1,num2,num3,num4,num5,star,star2) VALUES (?,?,?,?,?,?,?,?)";
-			PreparedStatement pST = conn.prepareStatement(sql);
-			pST.setDate(1, date1);
-			pST.setInt(2, num1);
-			pST.setInt(3, num2);
-			pST.setInt(4, num3);
-			pST.setInt(5, num4);
-			pST.setInt(6, num5);
-			pST.setInt(7, star);
-			pST.setInt(8, star2);
-			pST.execute();
-			
-			System.out.println("Values inserted");
-			return true;
-			
-			} catch (Exception e) {
-				System.out.println("Error inserting values" + e);
-				
-			}
-		
-		
-	return false;	
-	}
 	
     public View() {
     	setSize(800, 400);
@@ -175,8 +144,8 @@ public class View extends JFrame {
 				int num5 = Integer.parseInt(textNum5.getText().trim());
 				int star = Integer.parseInt(textNumstar.getText().trim());
 				int star2 = Integer.parseInt(textNumstar2.getText().trim());
-				// we call the function that inserts the valeues
-				boolean result = insertNumbers(date, num1, num2, num3, num4, num5, star, star2);
+				// we call the function that inserts the values
+				boolean result = controller.Control.insertNumbers2(date, num1, num2, num3, num4, num5, star, star2);
 
 				if (result) {
 
